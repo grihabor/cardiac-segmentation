@@ -7,5 +7,6 @@ services:
       dockerfile: docker/Dockerfile
     volumes:
       - "${SUNNYBROOK_DATA_PATH}:/data/sunnybrook"
+      - ./cache:/data/cache
     environment:
       - PYTHONPATH=/project/src
