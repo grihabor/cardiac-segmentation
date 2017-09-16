@@ -1,1 +1,1 @@
-SUNNYBROOK_DATA_PATH=/home/grihabor/Desktop/sunnybrook
+export SUNNYBROOK_DATA_PATH=/home/grihabor/Desktop/sunnybrook

@@ -1,2 +1,8 @@
+# Pycharm files
 .idea
+
+# Git meta files
 .git
+
+# Data
+data

@@ -1,2 +1,8 @@
-.idea
-__pycache__
+# Pycharm files
+.idea/
+
+# Python cache
+__pycache__/
+
+# Data
+data/

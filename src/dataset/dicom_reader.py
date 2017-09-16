@@ -1,3 +1,5 @@
+import os
+import png
 import dicom
 import logging
 
@@ -11,25 +13,46 @@ def get_dicom_image(content):
         img = content.pixel_array
     except ValueError as e:
         logger.warning(e)
-        raw = content.PixelData
-        data = np.fromstring(raw, dtype=np.uint8)  # np.array
+        pixel_data = content.PixelData
+        numpy_pixel_data_8 = np.fromstring(pixel_data, dtype=np.uint8)
+        numpy_pixel_data_16 = np.fromstring(pixel_data, dtype=np.uint16)
+        # print(np.max(numpy_pixel_data_8))
+        # print(np.max(numpy_pixel_data_16))
+        # data = numpy_pixel_data
 
-        tail = data.shape[0] % content.Columns
+        normalized_pixel_data = numpy_pixel_data_16.astype(np.float64) / content.LargestImagePixelValue
+        data = (normalized_pixel_data * 255).astype(np.uint8)
+
+        width = content.Columns
+
+        tail = data.shape[0] % width
         if tail != 0:
-            padding = content.Columns - tail
+            padding = width - tail
             logger.warning(f'Added padding: {padding}')
             data = np.append(data, np.zeros((padding,)))
-            print(data.shape, data.shape[0] % content.Columns)
 
-        img = np.reshape(data, (-1, content.Columns))
-
+        img = np.reshape(data, (-1, width))
+        # img = np.reshape(data, (content.Rows, -1))
+    print(img.shape)
     return img
 
 
-def read_dicom(filename):
-    content = dicom.read_file(filename)
+def save_as_png(arr, path):
+    writer = png.Writer(
+        height=arr.shape[0],
+        width=arr.shape[1],
+        bitdepth=8,
+        greyscale=True
+    )
+    with open(path, 'wb') as f:
+        writer.write(f, arr)
+
+
+def read_dicom(path):
+    content = dicom.read_file(path)
     print(content)
     img = get_dicom_image(content)
-    numpy
+    filename = os.path.split(path)[-1]
+    save_as_png(img, f'/data/cache/{filename}.png')
 
 
