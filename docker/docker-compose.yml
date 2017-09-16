@@ -1,0 +1,7 @@
+version: "3"
+services:
+  segmentation:
+    image: grihabor/cardiac-segmentation:base
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
