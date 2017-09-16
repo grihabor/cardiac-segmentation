@@ -1,7 +1,6 @@
-FROM library/python:3.6-alpine
+FROM grihabor/cardiac-segmentation:base
 MAINTAINER Borodin Gregory <grihabor@mail.ru>
 
-RUN pip3 install --no-cache-dir \
-    dicom
+ADD src /project/src
 
-
+CMD python3 /project/src/run.py

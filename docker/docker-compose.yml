@@ -1,7 +1,11 @@
 version: "3"
 services:
   segmentation:
-    image: grihabor/cardiac-segmentation:base
+    image: grihabor/cardiac-segmentation:latest
     build:
       context: ..
       dockerfile: docker/Dockerfile
+    volumes:
+      - "${SUNNYBROOK_DATA_PATH}:/data/sunnybrook"
+    environment:
+      - PYTHONPATH=/project/src
