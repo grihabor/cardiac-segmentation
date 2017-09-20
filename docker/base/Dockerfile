@@ -9,3 +9,5 @@ RUN pip3 install --no-cache-dir \
     pypng \
     pydicom
 
+RUN pip3 install --no-cache-dir \
+    openpyxl
